@@ -9,5 +9,5 @@ public enum Category {
     apartment("아파트"),
     island("섬"),
     etc("기타");
-    private String category;
+    private final String category;
 }
