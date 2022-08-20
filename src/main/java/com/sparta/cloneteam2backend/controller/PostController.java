@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@RequestMapping("/api/posts")
 @RequiredArgsConstructor
 @RestController
 public class PostController {
@@ -15,14 +16,14 @@ public class PostController {
     private final PostService postService;
 
     // 포스트 리스트 조회
-    @GetMapping("/api/posts")
+    @GetMapping
     public ResponseEntity<ResponseDto> getPostList() {
         return new ResponseEntity<>(
                 ResponseDto.success(postService.getPostList()), HttpStatus.OK);
     }
 
     // 포스트 상세 조회
-    @GetMapping("/api/posts/{postId}")
+    @GetMapping("/{postId}")
     public ResponseEntity<ResponseDto> getPostDetail(@PathVariable Long postId) {
         return new ResponseEntity<>(
                 ResponseDto.success(postService.getPostDetail(postId)), HttpStatus.OK);
@@ -30,7 +31,7 @@ public class PostController {
 
 
     // 포스트 생성
-    @PostMapping("/api/posts")
+    @PostMapping
     public ResponseEntity<ResponseDto> createPost(@RequestBody PostRequestDto requestDto) {
 
         return new ResponseEntity<>(
@@ -38,14 +39,14 @@ public class PostController {
     }
 
     // 포스트 수정
-    @PutMapping("/api/posts/{postId}")
+    @PutMapping("/{postId}")
     public ResponseEntity<ResponseDto> updatePost(@PathVariable Long postId, @RequestBody PostRequestDto requestDto) {
         return new ResponseEntity<>(
                 ResponseDto.success(postService.updatePost(postId, requestDto)), HttpStatus.OK);
     }
 
     // 포스트 삭제
-    @DeleteMapping("/api/posts/{postId}")
+    @DeleteMapping("/{postId}")
     public ResponseEntity<ResponseDto> deletePost(@PathVariable Long postId) {
         return new ResponseEntity<>(
                 ResponseDto.success(postService.deletePost(postId)), HttpStatus.OK);
