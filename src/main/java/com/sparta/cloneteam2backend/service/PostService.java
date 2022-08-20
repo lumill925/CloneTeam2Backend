@@ -17,6 +17,7 @@ public class PostService {
 
     private final PostRepository postRepository;
 
+    // 포스트 리스트 조회
     public List<PostResponseDto> getPostList() {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         List<PostResponseDto> postList = new ArrayList<>();
@@ -29,6 +30,16 @@ public class PostService {
         return postList;
     }
 
+    // 포스트 상세 조회
+    public PostResponseDto getPostDetail(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("포스트가 존재하지 않습니다."));
+        return PostResponseDto.builder()
+                .post(post)
+                .build();
+    }
+
+    // 포스트 생성
     @Transactional
     public Post createPost(PostRequestDto requestDto) {
         Post post = requestDto.createPost();
@@ -36,9 +47,11 @@ public class PostService {
         return post;
     }
 
+    // 포스트 수정
     @Transactional
     public Post updatePost(Long postId, PostRequestDto requestDto) {
-        Post post = postRepository.findById(postId).orElseThrow();
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("포스트가 존재하지 않습니다."));
         post.update(requestDto);
         return post;
     }

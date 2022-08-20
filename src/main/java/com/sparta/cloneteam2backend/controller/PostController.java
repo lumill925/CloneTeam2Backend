@@ -21,6 +21,14 @@ public class PostController {
                 ResponseDto.success(postService.getPostList()), HttpStatus.OK);
     }
 
+    // 포스트 상세 조회
+    @GetMapping("/api/posts/{postId}")
+    public ResponseEntity<ResponseDto> getPostDetail(@PathVariable Long postId) {
+        return new ResponseEntity<>(
+                ResponseDto.success(postService.getPostDetail(postId)), HttpStatus.OK);
+    }
+
+
     // 포스트 생성
     @PostMapping("/api/posts")
     public ResponseEntity<ResponseDto> createPost(@RequestBody PostRequestDto requestDto) {
