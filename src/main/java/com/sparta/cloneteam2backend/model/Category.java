@@ -5,9 +5,9 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum Category {
-    pension("펜션"),
-    apartment("아파트"),
-    island("섬"),
-    etc("기타");
+    PENSION("펜션"),
+    APARTMENT("아파트"),
+    ISLAND("섬"),
+    ETC("기타");
     private final String category;
 }

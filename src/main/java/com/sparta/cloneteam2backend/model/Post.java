@@ -13,23 +13,23 @@ public class Post extends Timestamped {
     @Id
     private Long postId;
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private String address;
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private String fee;
 
-    @Column(nullable = false)
+    // @Column(nullable = false)
     private String facilities;
 
 
