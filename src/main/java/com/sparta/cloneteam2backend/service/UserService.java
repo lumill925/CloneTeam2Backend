@@ -1,8 +1,10 @@
 package com.sparta.cloneteam2backend.service;
 
-import com.sparta.cloneteam2backend.Dto.LoginRequestDto;
 import com.sparta.cloneteam2backend.Dto.TokenDto;
+import com.sparta.cloneteam2backend.Dto.UserRequestDto;
+import com.sparta.cloneteam2backend.Dto.UserResponseDto;
 import com.sparta.cloneteam2backend.jwt.TokenProvider;
+import com.sparta.cloneteam2backend.model.RefreshToken;
 import com.sparta.cloneteam2backend.model.User;
 import com.sparta.cloneteam2backend.repository.RefreshTokenRepository;
 import com.sparta.cloneteam2backend.repository.UserRepository;
@@ -15,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -26,38 +29,18 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public void registerUser(SignupRequestDto requestDto) {
-        String username = requestDto.getUserUsername();
-        String nickname = requestDto.getUserNickname();
-        String password = requestDto.getUserPassword();
-        //String passwordCheck = requestDto.getPasswordCheck();
 
-//        if (userRepository.existsByUsername(requestDto.getUsername())) {
-//            throw new InvalidValueException(ErrorCode.USERNAME_DUPLICATION);
-//        }
-//
-//        if (username.length() < 4) {
-//            throw new InvalidValueException(ErrorCode.INVALID_INPUT_USERNAME);
-//        } else if (!Pattern.matches(pattern, username)) {
-//            throw new InvalidValueException(ErrorCode.INVALID_USERNAME);
-//        } else if (!password.equals(repassword)) {
-//            throw new InvalidValueException(ErrorCode.NOTEQUAL_INPUT_PASSWORD);
-//        } else if (password.length() < 4) {
-//            throw new InvalidValueException(ErrorCode.INVALID_PASSWORD);
-//        } else if (intro.length() < 1) {
-//            throw new InvalidValueException(ErrorCode.INVALID_INPUT_INTRO);
-//        }
+    @Transactional
+    public UserResponseDto signup(UserRequestDto requestDto) {
+        if (userRepository.existsByUserUsername(requestDto.getUserUsername())) {
+            throw new IllegalArgumentException("이미 가입되어 있는 유저입니다");
+        }
 
-        userRepository.save(new User(username, nickname, passwordEncoder.encode(password)));
+        User user = requestDto.toUser(passwordEncoder);
+        return UserResponseDto.of(userRepository.save(user));
     }
 
-    public ResponseEntity<TokenDto> login(LoginRequestDto requestDto) {
-        User user = userRepository.findByUserUsername(requestDto.getUserUsername());
-
-        if (!passwordEncoder.matches(requestDto.getUserPassword(), user.getUserPassword())) {
-            System.out.println("비밀번호가 틀렸따.");
-            //throw new InvalidValueException(ErrorCode.LOGIN_INPUT_INVALID);
-        }
+    public TokenDto login(UserRequestDto requestDto) {
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
 
@@ -66,7 +49,7 @@ public class UserService {
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
-        TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
+        TokenDto tokenDto = tokenProvider.createToken(authentication);
 
         // 4. RefreshToken 저장
         RefreshToken refreshToken = RefreshToken.builder()

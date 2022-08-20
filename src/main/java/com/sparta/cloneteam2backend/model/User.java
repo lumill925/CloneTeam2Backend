@@ -1,5 +1,6 @@
 package com.sparta.cloneteam2backend.model;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +27,7 @@ public class User {
     @Column(nullable = false)
     private String userPassword;
 
+    @Builder
     public User (String username, String nickname, String password) {
         this.userUsername = username;
         this.userNickname = nickname;
