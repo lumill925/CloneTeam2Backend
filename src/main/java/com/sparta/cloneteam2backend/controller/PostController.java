@@ -6,9 +6,7 @@ import com.sparta.cloneteam2backend.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -21,5 +19,11 @@ public class PostController {
 
         return new ResponseEntity<>(
                 ResponseDto.success(postService.createPost(requestDto)), HttpStatus.OK);
+    }
+
+    @PutMapping("/api/posts/{postId}")
+    public ResponseEntity<ResponseDto> updatePost(@PathVariable Long postId, @RequestBody PostRequestDto requestDto) {
+        return new ResponseEntity<>(
+                ResponseDto.success(postService.updatePost(postId, requestDto)), HttpStatus.OK);
     }
 }

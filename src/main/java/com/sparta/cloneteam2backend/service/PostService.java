@@ -20,4 +20,11 @@ public class PostService {
         postRepository.save(post);
         return post;
     }
+
+    @Transactional
+    public Post updatePost(Long postId, PostRequestDto requestDto) {
+        Post post = postRepository.findById(postId).orElseThrow();
+        post.update(requestDto);
+        return post;
+    }
 }

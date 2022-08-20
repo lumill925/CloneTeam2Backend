@@ -1,5 +1,6 @@
 package com.sparta.cloneteam2backend.model;
 
+import com.sparta.cloneteam2backend.dto.post.PostRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -42,12 +43,12 @@ public class Post extends Timestamped {
         this.fee = fee;
     }
 
-    public void update(String title, String address, String content, Category category, String fee) {
-        this.title = title;
-        this.address = address;
-        this.content = content;
-        this.category = category;
-        this.fee = fee;
+    public void update(PostRequestDto requestDto) {
+        this.title = requestDto.getTitle();
+        this.address = requestDto.getAddress();
+        this.content = requestDto.getContent();
+        this.category = requestDto.getCategory();
+        this.fee = requestDto.getFee();
     }
 
 }
