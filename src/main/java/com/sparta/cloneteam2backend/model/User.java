@@ -1,11 +1,9 @@
 package com.sparta.cloneteam2backend.model;
 
-import com.sparta.cloneteam2backend.Dto.SignupRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 
@@ -21,17 +19,18 @@ public class User {
     private Long userId;
 
     @Column(nullable = false)
-    private String username;
+    private String userUsername;
 
     @Column(nullable = false)
-    private String nickname;
+    private String userNickname;
 
     @Column(nullable = false)
-    private String password;
+    private String userPassword;
 
+    @Builder
     public User (String username, String nickname, String password) {
-        this.username = username;
-        this.nickname = nickname;
-        this.password = password;
+        this.userUsername = username;
+        this.userNickname = nickname;
+        this.userPassword = password;
     }
 }
