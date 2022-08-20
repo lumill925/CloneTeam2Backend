@@ -55,4 +55,12 @@ public class PostService {
         post.update(requestDto);
         return post;
     }
+
+    // 포스트 삭제
+    public Long deletePost(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("포스트가 존재하지 않습니다."));
+        postRepository.deleteById(postId);
+        return postId;
+    }
 }

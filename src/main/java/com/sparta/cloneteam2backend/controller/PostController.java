@@ -43,4 +43,11 @@ public class PostController {
         return new ResponseEntity<>(
                 ResponseDto.success(postService.updatePost(postId, requestDto)), HttpStatus.OK);
     }
+
+    // 포스트 삭제
+    @DeleteMapping("/api/posts/{postId}")
+    public ResponseEntity<ResponseDto> deletePost(@PathVariable Long postId) {
+        return new ResponseEntity<>(
+                ResponseDto.success(postService.deletePost(postId)), HttpStatus.OK);
+    }
 }
