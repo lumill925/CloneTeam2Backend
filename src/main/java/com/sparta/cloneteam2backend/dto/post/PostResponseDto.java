@@ -27,13 +27,16 @@ public class PostResponseDto {
 
     private String postFee;
 
+    private Double reviewStar;
+
     @Builder
-    public PostResponseDto(Post post) {
+    public PostResponseDto(Post post, Double reviewStar) {
         this.modifiedAt = post.getModifiedAt();
         this.postId = post.getPostId();
         this.postTitle = post.getPostTitle();
         this.postAddress = post.getPostAddress();
         this.postCategory = post.getPostCategory();
         this.postFee = post.getPostFee();
+        this.reviewStar = reviewStar;
     }
 }

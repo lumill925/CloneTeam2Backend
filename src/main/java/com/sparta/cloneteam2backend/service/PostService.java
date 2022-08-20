@@ -4,26 +4,33 @@ import com.sparta.cloneteam2backend.dto.post.PostRequestDto;
 import com.sparta.cloneteam2backend.dto.post.PostResponseDto;
 import com.sparta.cloneteam2backend.model.Post;
 import com.sparta.cloneteam2backend.repository.PostRepository;
+import com.sparta.cloneteam2backend.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
 
     private final PostRepository postRepository;
+    private final ReviewRepository reviewRepository;
 
     // 포스트 리스트 조회
     public List<PostResponseDto> getPostList() {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
         List<PostResponseDto> postList = new ArrayList<>();
         for (Post post : posts) {
+            Long postId = post.getPostId();
+            Double reviewStar = reviewRepository.existsAllReviewStar(postId).orElse(0.0d);
             PostResponseDto postResponseDto = PostResponseDto.builder()
                     .post(post)
+                    .reviewStar(reviewStar)
                     .build();
             postList.add(postResponseDto);
         }
@@ -34,8 +41,10 @@ public class PostService {
     public PostResponseDto getPostDetail(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("포스트가 존재하지 않습니다."));
+        Double reviewStar = reviewRepository.existsAllReviewStar(postId).orElse(0.0d);
         return PostResponseDto.builder()
                 .post(post)
+                .reviewStar(reviewStar)
                 .build();
     }
 
