@@ -15,40 +15,40 @@ public class Post extends Timestamped {
     private Long postId;
 
     //@Column(nullable = false)
-    private String title;
+    private String postTitle;
 
     //@Column(nullable = false)
-    private String address;
+    private String postAddress;
 
     //@Column(nullable = false)
-    private String content;
+    private String postContent;
 
     //@Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Category category;
+    private Category postCategory;
 
     //@Column(nullable = false)
-    private String fee;
+    private String postFee;
 
     // @Column(nullable = false)
-    private String facilities;
+    private String postFacilities;
 
 
     @Builder
-    public Post(String title, String address, String content, Category category, String fee) {
-        this.title = title;
-        this.address = address;
-        this.content = content;
-        this.category = category;
-        this.fee = fee;
+    public Post(String postTitle, String postAddress, String postContent, Category postCategory, String postFee) {
+        this.postTitle = postTitle;
+        this.postAddress = postAddress;
+        this.postContent = postContent;
+        this.postCategory = postCategory;
+        this.postFee = postFee;
     }
 
     public void update(PostRequestDto requestDto) {
-        this.title = requestDto.getTitle();
-        this.address = requestDto.getAddress();
-        this.content = requestDto.getContent();
-        this.category = requestDto.getCategory();
-        this.fee = requestDto.getFee();
+        this.postTitle = requestDto.getPostTitle();
+        this.postAddress = requestDto.getPostAddress();
+        this.postContent = requestDto.getPostContent();
+        this.postCategory = requestDto.getPostCategory();
+        this.postFee = requestDto.getPostFee();
     }
 
 }

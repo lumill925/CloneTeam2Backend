@@ -12,22 +12,22 @@ import javax.persistence.Enumerated;
 @Setter
 public class PostRequestDto {
 
-    private String title;
-    private String address;
-    private String content;
+    private String postTitle;
+    private String postAddress;
+    private String postContent;
 
     @Enumerated(EnumType.STRING)
-    private Category category;
+    private Category postCategory;
 
-    private String fee;
+    private String postFee;
 
     public Post createPost() {
         return Post.builder()
-                .title(title)
-                .address(address)
-                .content(content)
-                .category(category)
-                .fee(fee)
+                .postTitle(postTitle)
+                .postAddress(postAddress)
+                .postContent(postContent)
+                .postCategory(postCategory)
+                .postFee(postFee)
                 .build();
     }
 

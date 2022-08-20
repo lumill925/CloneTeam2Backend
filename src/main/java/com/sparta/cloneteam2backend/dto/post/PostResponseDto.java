@@ -18,22 +18,22 @@ public class PostResponseDto {
 
     private Long postId;
 
-    private String title;
+    private String postTitle;
 
-    private String address;
+    private String postAddress;
 
     @Enumerated(EnumType.STRING)
-    private Category category;
+    private Category postCategory;
 
-    private String fee;
+    private String postFee;
 
     @Builder
     public PostResponseDto(Post post) {
         this.modifiedAt = post.getModifiedAt();
         this.postId = post.getPostId();
-        this.title = post.getTitle();
-        this.address = post.getAddress();
-        this.category = post.getCategory();
-        this.fee = post.getFee();
+        this.postTitle = post.getPostTitle();
+        this.postAddress = post.getPostAddress();
+        this.postCategory = post.getPostCategory();
+        this.postFee = post.getPostFee();
     }
 }
