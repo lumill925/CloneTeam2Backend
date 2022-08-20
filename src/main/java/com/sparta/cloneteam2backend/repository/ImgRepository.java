@@ -15,7 +15,8 @@ public interface ImgRepository extends JpaRepository<Img, Long> {
 	List<Img> findAllByTargetId(@Param("target") Imgtarget target, @Param("targetId") Long targetId);
 
 	@Modifying
-	@Transactional
 	@Query("DELETE FROM Img i WHERE i.imgTarget = :target AND i.targetId = :targetId")
 	void deleteAllByTargetId(@Param("target") Imgtarget target, @Param("targetId") Long targetId);
+
+	void deleteByImgUrl(String imgUrl);
 }
