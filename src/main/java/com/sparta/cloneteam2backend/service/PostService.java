@@ -64,4 +64,10 @@ public class PostService {
         postRepository.deleteById(postId);
         return postId;
     }
+
+    // 포스트 객체 가져오기
+    public Post getPost(Long postId) {
+        return postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("포스트가 존재하지 않습니다."));
+    }
 }
