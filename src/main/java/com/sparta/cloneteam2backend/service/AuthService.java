@@ -1,15 +1,14 @@
 package com.sparta.cloneteam2backend.service;
 
-import com.sparta.cloneteam2backend.Dto.TokenDto;
-import com.sparta.cloneteam2backend.Dto.UserRequestDto;
-import com.sparta.cloneteam2backend.Dto.UserResponseDto;
+import com.sparta.cloneteam2backend.Dto.Auth.TokenDto;
+import com.sparta.cloneteam2backend.Dto.Auth.AuthRequestDto;
+import com.sparta.cloneteam2backend.Dto.Auth.AuthResponseDto;
 import com.sparta.cloneteam2backend.jwt.TokenProvider;
 import com.sparta.cloneteam2backend.model.RefreshToken;
 import com.sparta.cloneteam2backend.model.User;
 import com.sparta.cloneteam2backend.repository.RefreshTokenRepository;
 import com.sparta.cloneteam2backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -17,12 +16,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Objects;
+
 
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class UserService {
+public class AuthService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
@@ -31,16 +30,17 @@ public class UserService {
 
 
     @Transactional
-    public UserResponseDto signup(UserRequestDto requestDto) {
+    public AuthResponseDto signup(AuthRequestDto requestDto) {
         if (userRepository.existsByUserUsername(requestDto.getUserUsername())) {
             throw new IllegalArgumentException("이미 가입되어 있는 유저입니다");
         }
 
         User user = requestDto.toUser(passwordEncoder);
-        return UserResponseDto.of(userRepository.save(user));
+        return AuthResponseDto.of(userRepository.save(user));
     }
 
-    public TokenDto login(UserRequestDto requestDto) {
+
+    public TokenDto login(AuthRequestDto requestDto) {
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
 

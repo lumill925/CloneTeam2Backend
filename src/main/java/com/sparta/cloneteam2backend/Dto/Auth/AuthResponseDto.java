@@ -1,4 +1,4 @@
-package com.sparta.cloneteam2backend.Dto;
+package com.sparta.cloneteam2backend.Dto.Auth;
 
 import com.sparta.cloneteam2backend.model.User;
 import lombok.AllArgsConstructor;
@@ -10,15 +10,12 @@ import lombok.Setter;
 @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class UserResponseDto {
+public class AuthResponseDto {
     private String userUsername;
     private String userNickname;
-    private String userPassword;
 
-    public UserResponseDto(String userUsername) {
-    }
 
-    public static UserResponseDto of(User user) {
-        return new UserResponseDto(user.getUserUsername());
+    public static AuthResponseDto of(User user) {
+        return new AuthResponseDto(user.getUserUsername(), user.getUserNickname());
     }
 }

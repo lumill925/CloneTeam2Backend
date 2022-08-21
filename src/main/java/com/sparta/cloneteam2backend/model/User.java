@@ -27,10 +27,15 @@ public class User {
     @Column(nullable = false)
     private String userPassword;
 
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
+
+
     @Builder
-    public User (String username, String nickname, String password) {
+    public User (String username, String nickname, String password, Authority authority) {
         this.userUsername = username;
         this.userNickname = nickname;
         this.userPassword = password;
+        this.authority = authority;
     }
 }
