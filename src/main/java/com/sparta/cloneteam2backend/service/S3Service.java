@@ -70,4 +70,11 @@ public class S3Service {
 		}
 		imgRepository.deleteAllByTargetId(target, targetId);
 	}
+
+	@Transactional
+	public void updateFile(List<String> deleteFiles, MultipartFile[] newFiles, String targetDirectory, Long targetId) {
+		deleteFiles.forEach(url -> amazonS3.deleteObject(bucket, url.split(bucket + "/", 2)[1]));
+		deleteFiles.forEach(imgRepository::deleteByImgUrl);
+		uploadFile(newFiles, targetDirectory, targetId);
+	}
 }
