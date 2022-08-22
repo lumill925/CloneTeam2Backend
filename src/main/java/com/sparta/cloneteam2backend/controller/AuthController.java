@@ -1,5 +1,6 @@
 package com.sparta.cloneteam2backend.controller;
 
+import com.sparta.cloneteam2backend.dto.Auth.TokenDto;
 import com.sparta.cloneteam2backend.dto.ResponseDto;
 import com.sparta.cloneteam2backend.dto.Auth.AuthRequestDto;
 import com.sparta.cloneteam2backend.error.RestApiException;
@@ -45,5 +46,11 @@ public class AuthController {
             restApiException.setErrorMessage(ex.getMessage());
             return new ResponseEntity<>(ResponseDto.fail(restApiException, HttpStatus.CONFLICT), HttpStatus.CONFLICT);
         }
+    }
+
+
+    @PostMapping("/reissue")
+    public ResponseEntity<ResponseDto> reissue(@RequestBody TokenDto requestDto) {
+        return new ResponseEntity<>(ResponseDto.success(userService.reissue(requestDto)), HttpStatus.OK);
     }
 }
