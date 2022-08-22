@@ -1,8 +1,8 @@
 package com.sparta.cloneteam2backend.service;
 
-import com.sparta.cloneteam2backend.Dto.Auth.TokenDto;
-import com.sparta.cloneteam2backend.Dto.Auth.AuthRequestDto;
-import com.sparta.cloneteam2backend.Dto.Auth.AuthResponseDto;
+import com.sparta.cloneteam2backend.dto.Auth.TokenDto;
+import com.sparta.cloneteam2backend.dto.Auth.AuthRequestDto;
+import com.sparta.cloneteam2backend.dto.Auth.AuthResponseDto;
 import com.sparta.cloneteam2backend.jwt.TokenProvider;
 import com.sparta.cloneteam2backend.model.RefreshToken;
 import com.sparta.cloneteam2backend.model.User;

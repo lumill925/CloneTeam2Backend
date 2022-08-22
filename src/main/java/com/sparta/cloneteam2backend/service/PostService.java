@@ -1,7 +1,7 @@
 package com.sparta.cloneteam2backend.service;
 
-import com.sparta.cloneteam2backend.Dto.post.PostRequestDto;
-import com.sparta.cloneteam2backend.Dto.post.PostResponseDto;
+import com.sparta.cloneteam2backend.dto.post.PostRequestDto;
+import com.sparta.cloneteam2backend.dto.post.PostResponseDto;
 import com.sparta.cloneteam2backend.model.Post;
 import com.sparta.cloneteam2backend.repository.PostRepository;
 import lombok.RequiredArgsConstructor;

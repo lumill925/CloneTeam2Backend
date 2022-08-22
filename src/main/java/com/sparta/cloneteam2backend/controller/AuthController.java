@@ -1,7 +1,7 @@
 package com.sparta.cloneteam2backend.controller;
 
-import com.sparta.cloneteam2backend.Dto.ResponseDto;
-import com.sparta.cloneteam2backend.Dto.Auth.AuthRequestDto;
+import com.sparta.cloneteam2backend.dto.ResponseDto;
+import com.sparta.cloneteam2backend.dto.Auth.AuthRequestDto;
 import com.sparta.cloneteam2backend.error.RestApiException;
 import com.sparta.cloneteam2backend.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class AuthController {
     private final AuthService userService;
 

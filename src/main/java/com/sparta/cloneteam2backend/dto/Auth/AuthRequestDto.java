@@ -1,4 +1,4 @@
-package com.sparta.cloneteam2backend.Dto.Auth;
+package com.sparta.cloneteam2backend.dto.Auth;
 
 import com.sparta.cloneteam2backend.model.Authority;
 import com.sparta.cloneteam2backend.model.User;
@@ -7,9 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 
 @Getter
 @AllArgsConstructor

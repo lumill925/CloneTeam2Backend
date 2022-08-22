@@ -1,6 +1,6 @@
 package com.sparta.cloneteam2backend.model;
 
-import com.sparta.cloneteam2backend.Dto.review.ReviewRequestDto;
+import com.sparta.cloneteam2backend.dto.review.ReviewRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

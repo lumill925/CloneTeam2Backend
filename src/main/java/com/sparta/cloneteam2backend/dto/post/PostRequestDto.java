@@ -1,4 +1,4 @@
-package com.sparta.cloneteam2backend.Dto.post;
+package com.sparta.cloneteam2backend.dto.post;
 
 import com.sparta.cloneteam2backend.model.Category;
 import com.sparta.cloneteam2backend.model.Post;

@@ -1,4 +1,4 @@
-package com.sparta.cloneteam2backend.Dto.review;
+package com.sparta.cloneteam2backend.dto.review;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sparta.cloneteam2backend.model.Review;
