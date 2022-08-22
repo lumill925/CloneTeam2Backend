@@ -29,11 +29,7 @@ public class Post extends Timestamped {
 
     @Column(nullable = false)
     private String postFee;
-
-    // @Column(nullable = false)
-//    private String postFacilities;
-
-
+    
     @Builder
     public Post(String postTitle, String postAddress, String postContent, Category postCategory, String postFee) {
         this.postTitle = postTitle;
