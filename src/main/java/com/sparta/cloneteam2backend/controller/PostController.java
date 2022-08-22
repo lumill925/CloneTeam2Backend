@@ -2,10 +2,12 @@ package com.sparta.cloneteam2backend.controller;
 
 import com.sparta.cloneteam2backend.dto.ResponseDto;
 import com.sparta.cloneteam2backend.dto.post.PostRequestDto;
+import com.sparta.cloneteam2backend.model.Facilities;
 import com.sparta.cloneteam2backend.model.Img;
 import com.sparta.cloneteam2backend.model.Imgtarget;
 import com.sparta.cloneteam2backend.model.Post;
 import com.sparta.cloneteam2backend.repository.ImgRepository;
+import com.sparta.cloneteam2backend.service.FacilitiesService;
 import com.sparta.cloneteam2backend.service.PostService;
 import com.sparta.cloneteam2backend.service.S3Service;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +25,7 @@ public class PostController {
 
     private final PostService postService;
     private final S3Service s3Service;
-    private final ImgRepository imgRepository;
+    private final FacilitiesService facilitiesService;
 
     // 포스트 리스트 조회
     @GetMapping
@@ -43,11 +45,12 @@ public class PostController {
     // 포스트 생성
     @PostMapping
     public ResponseEntity<ResponseDto> createPost(@RequestPart PostRequestDto requestDto,
-                                                  @RequestPart(required = false) MultipartFile[] postImage) {
+                                                  @RequestPart(required = false) MultipartFile[] postImage) throws IllegalAccessException {
         Post post = postService.createPost(requestDto);
         if(postImage != null) {
             s3Service.uploadFile(postImage, String.valueOf(Imgtarget.POST), post.getPostId());
         }
+        facilitiesService.createFacilities(post.getPostId(), requestDto.getFacilitiesList());
         return new ResponseEntity<>(
                 ResponseDto.success(post), HttpStatus.OK);
     }

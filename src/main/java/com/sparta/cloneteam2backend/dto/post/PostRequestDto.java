@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,6 +21,8 @@ public class PostRequestDto {
     private Category postCategory;
 
     private String postFee;
+
+    private List<String> facilitiesList;
 
     public Post createPost() {
         return Post.builder()
