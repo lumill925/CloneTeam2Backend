@@ -20,7 +20,6 @@ public class FacilitiesService {
 
     @Transactional
     public void createFacilities(Long postId, List<String> facilitiesList) throws IllegalAccessException {
-
         for(Field field : facilitiesRequestDto.getClass().getDeclaredFields()) {
             for(String f : facilitiesList) {
                 if(field.getName().equals(f)) {
@@ -31,5 +30,25 @@ public class FacilitiesService {
         }
         Facilities facilities = facilitiesRequestDto.toFacilities(postId);
         facilitiesRepository.save(facilities);
+    }
+
+    @Transactional
+    public void updateFacilities(Long postId, List<String> facilitiesList) throws IllegalAccessException {
+        facilitiesRepository.deleteByPostId(postId);
+        for(Field field : facilitiesRequestDto.getClass().getDeclaredFields()) {
+            for(String f : facilitiesList) {
+                if(field.getName().equals(f)) {
+                    field.setAccessible(true);
+                    field.set(facilitiesRequestDto, true);
+                }
+            }
+        }
+        Facilities facilities = facilitiesRequestDto.toFacilities(postId);
+        facilitiesRepository.save(facilities);
+    }
+
+    @Transactional
+    public void deleteFacilities(Long postId) {
+        facilitiesRepository.deleteByPostId(postId);
     }
 }
