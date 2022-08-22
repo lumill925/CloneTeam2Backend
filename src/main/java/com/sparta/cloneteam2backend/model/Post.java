@@ -1,6 +1,6 @@
 package com.sparta.cloneteam2backend.model;
 
-import com.sparta.cloneteam2backend.dto.post.PostRequestDto;
+import com.sparta.cloneteam2backend.Dto.post.PostRequestDto;
 import lombok.*;
 
 import javax.persistence.*;

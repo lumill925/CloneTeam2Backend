@@ -1,7 +1,7 @@
 package com.sparta.cloneteam2backend.controller;
 
-import com.sparta.cloneteam2backend.dto.ResponseDto;
-import com.sparta.cloneteam2backend.dto.post.PostRequestDto;
+import com.sparta.cloneteam2backend.Dto.ResponseDto;
+import com.sparta.cloneteam2backend.Dto.post.PostRequestDto;
 import com.sparta.cloneteam2backend.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

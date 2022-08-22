@@ -1,8 +1,8 @@
 package com.sparta.cloneteam2backend.controller;
 
-import com.sparta.cloneteam2backend.dto.ResponseDto;
-import com.sparta.cloneteam2backend.dto.review.ReviewRequestDto;
-import com.sparta.cloneteam2backend.dto.review.ReviewResponseDto;
+import com.sparta.cloneteam2backend.Dto.ResponseDto;
+import com.sparta.cloneteam2backend.Dto.review.ReviewRequestDto;
+import com.sparta.cloneteam2backend.Dto.review.ReviewResponseDto;
 import com.sparta.cloneteam2backend.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

@@ -4,9 +4,7 @@ import com.sparta.cloneteam2backend.jwt.JwtAccessDeniedHandler;
 import com.sparta.cloneteam2backend.jwt.JwtAuthenticationEntryPoint;
 import com.sparta.cloneteam2backend.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -46,8 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 로그인, 회원가입 API 는 토큰이 없는 상태에서 요청이 들어오기 때문에 permitAll 설정
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/signup").permitAll()
-                .antMatchers("/api/login").permitAll()
+                .antMatchers("/user/signup").permitAll()
+                .antMatchers("/user/login").permitAll()
                 .anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
 
                 // JwtFilter 를 addFilterBefore 로 등록했던 JwtSecurityConfig 클래스를 적용

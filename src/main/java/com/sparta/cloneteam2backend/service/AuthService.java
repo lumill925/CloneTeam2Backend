@@ -41,6 +41,12 @@ public class AuthService {
 
 
     public TokenDto login(AuthRequestDto requestDto) {
+
+        // ID 중복
+        if (!userRepository.existsByUserUsername(requestDto.getUserUsername())) {
+            throw new IllegalArgumentException("존재하지 않는 유저입니다");
+        }
+
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
 

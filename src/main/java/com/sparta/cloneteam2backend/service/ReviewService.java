@@ -1,7 +1,7 @@
 package com.sparta.cloneteam2backend.service;
 
-import com.sparta.cloneteam2backend.dto.review.ReviewRequestDto;
-import com.sparta.cloneteam2backend.dto.review.ReviewResponseDto;
+import com.sparta.cloneteam2backend.Dto.review.ReviewRequestDto;
+import com.sparta.cloneteam2backend.Dto.review.ReviewResponseDto;
 import com.sparta.cloneteam2backend.model.Post;
 import com.sparta.cloneteam2backend.model.Review;
 import com.sparta.cloneteam2backend.repository.ReviewRepository;

@@ -1,6 +1,6 @@
 package com.sparta.cloneteam2backend.controller;
 
-import com.sparta.cloneteam2backend.dto.ResponseDto;
+import com.sparta.cloneteam2backend.Dto.ResponseDto;
 import com.sparta.cloneteam2backend.Dto.Auth.AuthRequestDto;
 import com.sparta.cloneteam2backend.error.RestApiException;
 import com.sparta.cloneteam2backend.service.AuthService;
@@ -17,7 +17,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/user")
 public class AuthController {
     private final AuthService userService;
 
@@ -28,15 +28,22 @@ public class AuthController {
             return new ResponseEntity<>(ResponseDto.success(userService.signup(requestDto)), HttpStatus.OK);
         } catch (IllegalArgumentException ex) {
             RestApiException restApiException = new RestApiException();
-            restApiException.setHttpStatus(HttpStatus.CONFLICT);
+            restApiException.setCode(HttpStatus.CONFLICT.value());
             restApiException.setErrorMessage(ex.getMessage());
-            return new ResponseEntity(restApiException, HttpStatus.CONFLICT);
+            return new ResponseEntity<>(ResponseDto.fail(restApiException, HttpStatus.CONFLICT), HttpStatus.CONFLICT);
         }
     }
 
 
     @PostMapping("/login")
     public ResponseEntity<ResponseDto> login(@RequestBody AuthRequestDto requestDto) {
-        return new ResponseEntity<>(ResponseDto.success(userService.login(requestDto)), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(ResponseDto.success(userService.login(requestDto)), HttpStatus.OK);
+        } catch (IllegalArgumentException ex) {
+            RestApiException restApiException = new RestApiException();
+            restApiException.setCode(HttpStatus.CONFLICT.value());
+            restApiException.setErrorMessage(ex.getMessage());
+            return new ResponseEntity<>(ResponseDto.fail(restApiException, HttpStatus.CONFLICT), HttpStatus.CONFLICT);
+        }
     }
 }

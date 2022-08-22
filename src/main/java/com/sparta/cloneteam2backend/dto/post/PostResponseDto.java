@@ -1,4 +1,4 @@
-package com.sparta.cloneteam2backend.dto.post;
+package com.sparta.cloneteam2backend.Dto.post;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sparta.cloneteam2backend.model.Category;

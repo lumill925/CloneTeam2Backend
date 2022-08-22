@@ -1,4 +1,4 @@
-package com.sparta.cloneteam2backend.dto;
+package com.sparta.cloneteam2backend.Dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,5 +15,7 @@ public class ResponseDto<T> {
         return new ResponseDto<>(true, data, HttpStatus.OK);
     }
 
-
+    public static <T> ResponseDto<T> fail(T data, HttpStatus httpStatus) {
+        return new ResponseDto<>(false, data, httpStatus);
+    }
 }
