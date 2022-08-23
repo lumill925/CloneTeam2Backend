@@ -60,7 +60,7 @@ public class UserController {
 
 
     @GetMapping("/me")
-    public ResponseEntity<ResponseDto> check() {
+    public ResponseEntity<ResponseDto> getMinr() {
         try {
             return new ResponseEntity<>(ResponseDto.success(userService.getMyInfo()), HttpStatus.OK);
         } catch (RuntimeException ex) {
