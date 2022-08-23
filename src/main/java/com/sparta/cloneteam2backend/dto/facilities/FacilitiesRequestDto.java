@@ -20,7 +20,7 @@ public class FacilitiesRequestDto {
 
     private Boolean facilitiesTv = false;
 
-        public Facilities toFacilities(Long postId) {
+    public Facilities toFacilities(Long postId) {
         return Facilities.builder()
                 .postId(postId)
                 .facilitiesParking(facilitiesParking)

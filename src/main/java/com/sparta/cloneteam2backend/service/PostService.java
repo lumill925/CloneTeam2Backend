@@ -25,6 +25,7 @@ public class PostService {
     private final ReviewRepository reviewRepository;
     private final ImgRepository imgRepository;
     private final FacilitiesRepository facilitiesRepository;
+    
     // 포스트 리스트 조회
     public List<PostResponseDto> getPostList() {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
