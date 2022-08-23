@@ -17,8 +17,10 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String postTitle;
 
-    @Column(nullable = false)
-    private String postAuthor;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @ToString.Exclude
+    private User user;
 
     @Column
     private String postLocation;
@@ -37,9 +39,9 @@ public class Post extends Timestamped {
     private String postFee;
     
     @Builder
-    public Post(String postTitle, String postAuthor, String postLocation, String postAddress, String postContent, Category postCategory, String postFee) {
+    public Post(String postTitle, User user, String postLocation, String postAddress, String postContent, Category postCategory, String postFee) {
         this.postTitle = postTitle;
-        this.postAuthor = postAuthor;
+        this.user = user;
         this.postLocation = postLocation;
         this.postAddress = postAddress;
         this.postContent = postContent;

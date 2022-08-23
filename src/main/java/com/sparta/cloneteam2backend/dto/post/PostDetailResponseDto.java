@@ -23,8 +23,6 @@ public class PostDetailResponseDto {
 
     private String postTitle;
 
-    private String postAuthor;
-
     private String postLocation;
 
     private String postAddress;
@@ -33,6 +31,8 @@ public class PostDetailResponseDto {
     private Category postCategory;
 
     private String postFee;
+
+    private String userNickname;
 
     private Double reviewStar;
 
@@ -45,7 +45,7 @@ public class PostDetailResponseDto {
         this.modifiedAt = post.getModifiedAt();
         this.postId = post.getPostId();
         this.postTitle = post.getPostTitle();
-        this.postAuthor = post.getPostAuthor();
+        this.userNickname = post.getUser().getUserNickname();
         this.postLocation = post.getPostLocation();
         this.postAddress = post.getPostAddress();
         this.postCategory = post.getPostCategory();

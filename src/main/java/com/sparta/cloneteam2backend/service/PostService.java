@@ -3,10 +3,7 @@ package com.sparta.cloneteam2backend.service;
 import com.sparta.cloneteam2backend.dto.post.PostDetailResponseDto;
 import com.sparta.cloneteam2backend.dto.post.PostRequestDto;
 import com.sparta.cloneteam2backend.dto.post.PostResponseDto;
-import com.sparta.cloneteam2backend.model.Facilities;
-import com.sparta.cloneteam2backend.model.Img;
-import com.sparta.cloneteam2backend.model.Imgtarget;
-import com.sparta.cloneteam2backend.model.Post;
+import com.sparta.cloneteam2backend.model.*;
 import com.sparta.cloneteam2backend.repository.FacilitiesRepository;
 import com.sparta.cloneteam2backend.repository.ImgRepository;
 import com.sparta.cloneteam2backend.repository.PostRepository;
@@ -65,8 +62,8 @@ public class PostService {
     // 포스트 생성
     @Transactional
     public Post createPost(PostRequestDto requestDto) {
-        requestDto.setPostAuthor(userService.getMyInfo().getUserNickname());
-        Post post = requestDto.createPost();
+        User user = userService.getMyInfo();
+        Post post = requestDto.createPost(user);
         postRepository.save(post);
         return post;
     }
@@ -76,7 +73,7 @@ public class PostService {
     public Post updatePost(Long postId, PostRequestDto requestDto) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("포스트가 존재하지 않습니다."));
-        if(!userService.getMyInfo().getUserNickname().equals(post.getPostAuthor())) {
+        if(!userService.getMyInfo().getUserId().equals(post.getUser().getUserId())) {
             throw new IllegalArgumentException("작성자가 아닙니다.");
         }
         post.update(requestDto);
@@ -88,7 +85,7 @@ public class PostService {
     public Long deletePost(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("포스트가 존재하지 않습니다."));
-        if(!userService.getMyInfo().getUserNickname().equals(post.getPostAuthor())) {
+        if(!userService.getMyInfo().getUserId().equals(post.getUser().getUserId())) {
             throw new IllegalArgumentException("작성자가 아닙니다.");
         }
         postRepository.deleteById(postId);
