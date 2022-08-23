@@ -51,7 +51,9 @@ public class PostController {
         if(postImage != null) {
             s3Service.uploadFile(postImage, String.valueOf(Imgtarget.POST), post.getPostId());
         }
-        facilitiesService.createFacilities(post.getPostId(), requestDto.getFacilitiesList());
+        if(requestDto.getFacilitiesList().size() != 0) {
+            facilitiesService.createFacilities(post.getPostId(), requestDto.getFacilitiesList());
+        }
         return new ResponseEntity<>(
                 ResponseDto.success(post), HttpStatus.OK);
     }
