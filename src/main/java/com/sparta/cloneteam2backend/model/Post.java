@@ -17,22 +17,32 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String postTitle;
 
-    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @ToString.Exclude
+    private User user;
+
+    @Column
+    private String postLocation;
+
+    @Column
     private String postAddress;
 
-    @Column(nullable = false)
+    @Column
     private String postContent;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Category postCategory;
 
-    @Column(nullable = false)
+    @Column
     private String postFee;
     
     @Builder
-    public Post(String postTitle, String postAddress, String postContent, Category postCategory, String postFee) {
+    public Post(String postTitle, User user, String postLocation, String postAddress, String postContent, Category postCategory, String postFee) {
         this.postTitle = postTitle;
+        this.user = user;
+        this.postLocation = postLocation;
         this.postAddress = postAddress;
         this.postContent = postContent;
         this.postCategory = postCategory;
@@ -41,6 +51,7 @@ public class Post extends Timestamped {
 
     public void update(PostRequestDto requestDto) {
         this.postTitle = requestDto.getPostTitle();
+        this.postLocation = requestDto.getPostLocation();
         this.postAddress = requestDto.getPostAddress();
         this.postContent = requestDto.getPostContent();
         this.postCategory = requestDto.getPostCategory();

@@ -14,29 +14,46 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-public class PostResponseDto {
+public class PostDetailResponseDto {
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private final LocalDateTime modifiedAt;
+
     private Long postId;
 
+    private String postTitle;
+
     private String postLocation;
+
+    private String postAddress;
 
     @Enumerated(EnumType.STRING)
     private Category postCategory;
 
     private String postFee;
 
+    private String userNickname;
+
     private Double reviewStar;
 
     private Object[] imageFiles;
 
+    private List<Facilities> facilitiesList;
+
     @Builder
-    public PostResponseDto(Post post, Double reviewStar, List<Img> imageFiles) {
+    public PostDetailResponseDto(Post post, Double reviewStar, List<Img> imageFiles, List<Facilities> facilitiesList) {
+        this.modifiedAt = post.getModifiedAt();
         this.postId = post.getPostId();
+        this.postTitle = post.getPostTitle();
+        this.userNickname = post.getUser().getUserNickname();
         this.postLocation = post.getPostLocation();
+        this.postAddress = post.getPostAddress();
         this.postCategory = post.getPostCategory();
         this.postFee = post.getPostFee();
         this.reviewStar = reviewStar;
         this.imageFiles = imageFiles.stream()
                 .map(Img::getImgUrl)
                 .toArray();
+        this.facilitiesList = facilitiesList;
     }
 }

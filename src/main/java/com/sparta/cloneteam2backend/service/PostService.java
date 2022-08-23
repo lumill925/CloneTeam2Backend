@@ -1,11 +1,9 @@
 package com.sparta.cloneteam2backend.service;
 
+import com.sparta.cloneteam2backend.dto.post.PostDetailResponseDto;
 import com.sparta.cloneteam2backend.dto.post.PostRequestDto;
 import com.sparta.cloneteam2backend.dto.post.PostResponseDto;
-import com.sparta.cloneteam2backend.model.Facilities;
-import com.sparta.cloneteam2backend.model.Img;
-import com.sparta.cloneteam2backend.model.Imgtarget;
-import com.sparta.cloneteam2backend.model.Post;
+import com.sparta.cloneteam2backend.model.*;
 import com.sparta.cloneteam2backend.repository.FacilitiesRepository;
 import com.sparta.cloneteam2backend.repository.ImgRepository;
 import com.sparta.cloneteam2backend.repository.PostRepository;
@@ -25,7 +23,9 @@ public class PostService {
     private final ReviewRepository reviewRepository;
     private final ImgRepository imgRepository;
     private final FacilitiesRepository facilitiesRepository;
-    
+    private final UserService userService;
+
+
     // 포스트 리스트 조회
     public List<PostResponseDto> getPostList() {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
@@ -45,13 +45,13 @@ public class PostService {
     }
 
     // 포스트 상세 조회
-    public PostResponseDto getPostDetail(Long postId) {
+    public PostDetailResponseDto getPostDetail(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("포스트가 존재하지 않습니다."));
         Double reviewStar = reviewRepository.existsAllReviewStar(postId).orElse(0.0d);
         List<Img> imageFiles = imgRepository.findAllByTargetId(Imgtarget.POST, postId);
         List<Facilities> facilitiesList = facilitiesRepository.findAllByPostId(postId);
-        return PostResponseDto.builder()
+        return PostDetailResponseDto.builder()
                 .post(post)
                 .reviewStar(reviewStar)
                 .imageFiles(imageFiles)
@@ -62,7 +62,8 @@ public class PostService {
     // 포스트 생성
     @Transactional
     public Post createPost(PostRequestDto requestDto) {
-        Post post = requestDto.createPost();
+        User user = userService.getMyInfo();
+        Post post = requestDto.createPost(user);
         postRepository.save(post);
         return post;
     }
@@ -72,6 +73,9 @@ public class PostService {
     public Post updatePost(Long postId, PostRequestDto requestDto) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("포스트가 존재하지 않습니다."));
+        if(!userService.getMyInfo().getUserId().equals(post.getUser().getUserId())) {
+            throw new IllegalArgumentException("작성자가 아닙니다.");
+        }
         post.update(requestDto);
         return post;
     }
@@ -81,6 +85,9 @@ public class PostService {
     public Long deletePost(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("포스트가 존재하지 않습니다."));
+        if(!userService.getMyInfo().getUserId().equals(post.getUser().getUserId())) {
+            throw new IllegalArgumentException("작성자가 아닙니다.");
+        }
         postRepository.deleteById(postId);
         return postId;
     }
