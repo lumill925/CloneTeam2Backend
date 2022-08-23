@@ -1,12 +1,11 @@
 package com.sparta.cloneteam2backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -33,6 +32,10 @@ public class User {
     @JsonIgnore
     private Authority authority;
 
+    @OneToMany(mappedBy = "user")
+    @ToString.Exclude
+    @JsonIgnore
+    private List<Review> reviews = new ArrayList<>();
 
     @Builder
     public User (String username, String nickname, String password, Authority authority) {

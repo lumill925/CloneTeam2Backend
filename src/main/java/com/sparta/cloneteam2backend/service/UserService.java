@@ -1,8 +1,8 @@
 package com.sparta.cloneteam2backend.service;
 
 import com.sparta.cloneteam2backend.dto.user.TokenDto;
-import com.sparta.cloneteam2backend.dto.user.AuthRequestDto;
-import com.sparta.cloneteam2backend.dto.user.AuthResponseDto;
+import com.sparta.cloneteam2backend.dto.user.UserRequestDto;
+import com.sparta.cloneteam2backend.dto.user.UserResponseDto;
 import com.sparta.cloneteam2backend.jwt.TokenProvider;
 import com.sparta.cloneteam2backend.model.RefreshToken;
 import com.sparta.cloneteam2backend.model.User;
@@ -31,17 +31,17 @@ public class UserService {
 
 
     @Transactional
-    public AuthResponseDto signup(AuthRequestDto requestDto) {
+    public UserResponseDto signup(UserRequestDto requestDto) {
         if (userRepository.existsByUserUsername(requestDto.getUserUsername())) {
             throw new IllegalArgumentException("이미 가입되어 있는 유저입니다");
         }
 
         User user = requestDto.toUser(passwordEncoder);
-        return AuthResponseDto.of(userRepository.save(user));
+        return UserResponseDto.of(userRepository.save(user));
     }
 
 
-    public TokenDto login(AuthRequestDto requestDto) {
+    public TokenDto login(UserRequestDto requestDto) {
 
         // ID 중복
         if (!userRepository.existsByUserUsername(requestDto.getUserUsername())) {

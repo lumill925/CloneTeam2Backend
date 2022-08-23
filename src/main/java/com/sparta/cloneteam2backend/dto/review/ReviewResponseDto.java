@@ -13,7 +13,7 @@ public class ReviewResponseDto {
 	private LocalDateTime createdAt;
 	private Long postId;
 	private Long reviewId;
-	private String userName;
+	private String userNickname;
 	private String review;
 
 	@Builder
@@ -21,7 +21,7 @@ public class ReviewResponseDto {
 		this.createdAt = review.getCreatedAt();
 		this.postId = review.getPost().getPostId();
 		this.reviewId = review.getReviewId();
-//		this.userUsername = review.getUser().getUserUsername();
+		this.userNickname = review.getUser().getUserNickname();
 		this.review = review.getReviewContent();
 	}
 }

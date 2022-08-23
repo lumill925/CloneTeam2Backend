@@ -10,12 +10,12 @@ import lombok.Setter;
 @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class AuthResponseDto {
+public class UserResponseDto {
     private String userUsername;
     private String userNickname;
 
 
-    public static AuthResponseDto of(User user) {
-        return new AuthResponseDto(user.getUserUsername(), user.getUserNickname());
+    public static UserResponseDto of(User user) {
+        return new UserResponseDto(user.getUserUsername(), user.getUserNickname());
     }
 }
