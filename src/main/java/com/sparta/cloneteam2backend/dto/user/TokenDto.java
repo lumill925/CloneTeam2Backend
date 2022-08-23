@@ -1,4 +1,4 @@
-package com.sparta.cloneteam2backend.dto.Auth;
+package com.sparta.cloneteam2backend.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,8 +1,8 @@
 package com.sparta.cloneteam2backend.service;
 
-import com.sparta.cloneteam2backend.dto.Auth.TokenDto;
-import com.sparta.cloneteam2backend.dto.Auth.AuthRequestDto;
-import com.sparta.cloneteam2backend.dto.Auth.AuthResponseDto;
+import com.sparta.cloneteam2backend.dto.user.TokenDto;
+import com.sparta.cloneteam2backend.dto.user.AuthRequestDto;
+import com.sparta.cloneteam2backend.dto.user.AuthResponseDto;
 import com.sparta.cloneteam2backend.jwt.TokenProvider;
 import com.sparta.cloneteam2backend.model.RefreshToken;
 import com.sparta.cloneteam2backend.model.User;
@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ import javax.transaction.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class AuthService {
+public class UserService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
     private final RefreshTokenRepository refreshTokenRepository;
@@ -98,5 +99,28 @@ public class AuthService {
 
         // 토큰 발급
         return tokenDto;
+    }
+
+
+    @Transactional
+    public User getUserInfo(String userUsername) {
+        return userRepository.findByUserUsername(userUsername)
+                .orElseThrow(
+                        () -> new RuntimeException("유저 정보가 없습니다")
+                );
+    }
+
+
+    //현재 SecurityContext에 있는 유저 정보 가져오기기
+    @Transactional
+    public User getMyInfo() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if(authentication == null || authentication.getName() == null) {
+            throw new RuntimeException("Security Context에 인증 정보가 없습니다");
+        }
+
+        return userRepository.findByUserUsername(authentication.getName())
+                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
     }
 }
