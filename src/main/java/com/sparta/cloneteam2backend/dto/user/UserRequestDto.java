@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthRequestDto {
+public class UserRequestDto {
 //    @NotBlank(message = "아이디를 입력해주세요")
 //    @Pattern(regexp = "^(?=.*[a-zA-z])(?=.*[0-9])(?!.*[^a-zA-z0-9]).{4,12}$",
 //            message = "아이디는 4~12 자리이면서 1개 이상의 알파벳, 숫자를 포함해야합니다.")
