@@ -2,7 +2,7 @@ package com.sparta.cloneteam2backend.controller;
 
 import com.sparta.cloneteam2backend.dto.user.TokenDto;
 import com.sparta.cloneteam2backend.dto.ResponseDto;
-import com.sparta.cloneteam2backend.dto.user.AuthRequestDto;
+import com.sparta.cloneteam2backend.dto.user.UserRequestDto;
 import com.sparta.cloneteam2backend.error.RestApiException;
 import com.sparta.cloneteam2backend.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public class UserController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<ResponseDto> signup(@Valid @RequestBody AuthRequestDto requestDto) {
+    public ResponseEntity<ResponseDto> signup(@Valid @RequestBody UserRequestDto requestDto) {
         try {
             return new ResponseEntity<>(ResponseDto.success(userService.signup(requestDto)), HttpStatus.OK);
         } catch (IllegalArgumentException ex) {
@@ -34,7 +34,7 @@ public class UserController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseDto> login(@RequestBody AuthRequestDto requestDto) {
+    public ResponseEntity<ResponseDto> login(@RequestBody UserRequestDto requestDto) {
         try {
             return new ResponseEntity<>(ResponseDto.success(userService.login(requestDto)), HttpStatus.OK);
         } catch (IllegalArgumentException ex) {

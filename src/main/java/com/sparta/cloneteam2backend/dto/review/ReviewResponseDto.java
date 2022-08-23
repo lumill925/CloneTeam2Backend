@@ -21,7 +21,7 @@ public class ReviewResponseDto {
 		this.createdAt = review.getCreatedAt();
 		this.postId = review.getPost().getPostId();
 		this.reviewId = review.getReviewId();
-//		this.userUsername = review.getUser().getUserUsername();
+		this.userName = review.getUser().getUserUsername();
 		this.review = review.getReviewContent();
 	}
 }
