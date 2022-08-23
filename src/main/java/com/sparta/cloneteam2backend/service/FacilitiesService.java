@@ -13,11 +13,10 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class FacilitiesService {
-
-
     private final FacilitiesRequestDto facilitiesRequestDto;
     private final FacilitiesRepository facilitiesRepository;
 
+    // 편의시설 생성
     @Transactional
     public void createFacilities(Long postId, List<String> facilitiesList) throws IllegalAccessException {
         for(Field field : facilitiesRequestDto.getClass().getDeclaredFields()) {
@@ -32,9 +31,14 @@ public class FacilitiesService {
         facilitiesRepository.save(facilities);
     }
 
+    // 편의시설 수정
     @Transactional
     public void updateFacilities(Long postId, List<String> facilitiesList) throws IllegalAccessException {
         facilitiesRepository.deleteByPostId(postId);
+        for(Field field : facilitiesRequestDto.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            field.set(facilitiesRequestDto, false);
+        }
         for(Field field : facilitiesRequestDto.getClass().getDeclaredFields()) {
             for(String f : facilitiesList) {
                 if(field.getName().equals(f)) {
@@ -47,6 +51,7 @@ public class FacilitiesService {
         facilitiesRepository.save(facilities);
     }
 
+    // 편의시설 삭제
     @Transactional
     public void deleteFacilities(Long postId) {
         facilitiesRepository.deleteByPostId(postId);

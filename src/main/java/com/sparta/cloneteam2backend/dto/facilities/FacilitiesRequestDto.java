@@ -1,16 +1,14 @@
 package com.sparta.cloneteam2backend.dto.facilities;
 
 import com.sparta.cloneteam2backend.model.Facilities;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 @Getter
 @Setter
+@Component
 public class FacilitiesRequestDto {
-
-    private Long postId;
 
     private Boolean facilitiesParking = false;
 
@@ -22,8 +20,7 @@ public class FacilitiesRequestDto {
 
     private Boolean facilitiesTv = false;
 
-    @Builder
-    public Facilities toFacilities(Long postId) {
+        public Facilities toFacilities(Long postId) {
         return Facilities.builder()
                 .postId(postId)
                 .facilitiesParking(facilitiesParking)
