@@ -25,7 +25,9 @@ public class PostService {
     private final ReviewRepository reviewRepository;
     private final ImgRepository imgRepository;
     private final FacilitiesRepository facilitiesRepository;
-    
+    private final UserService userService;
+
+
     // 포스트 리스트 조회
     public List<PostResponseDto> getPostList() {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
@@ -62,6 +64,7 @@ public class PostService {
     // 포스트 생성
     @Transactional
     public Post createPost(PostRequestDto requestDto) {
+        requestDto.setPostAuthor(userService.getMyInfo().getUserNickname());
         Post post = requestDto.createPost();
         postRepository.save(post);
         return post;
@@ -72,6 +75,9 @@ public class PostService {
     public Post updatePost(Long postId, PostRequestDto requestDto) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("포스트가 존재하지 않습니다."));
+        if(!userService.getMyInfo().getUserNickname().equals(post.getPostAuthor())) {
+            throw new IllegalArgumentException("작성자가 아닙니다.");
+        }
         post.update(requestDto);
         return post;
     }
@@ -81,6 +87,9 @@ public class PostService {
     public Long deletePost(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("포스트가 존재하지 않습니다."));
+        if(!userService.getMyInfo().getUserNickname().equals(post.getPostAuthor())) {
+            throw new IllegalArgumentException("작성자가 아닙니다.");
+        }
         postRepository.deleteById(postId);
         return postId;
     }

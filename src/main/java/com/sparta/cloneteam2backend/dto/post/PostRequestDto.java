@@ -15,6 +15,7 @@ import java.util.List;
 public class PostRequestDto {
 
     private String postTitle;
+    private String postAuthor;
     private String postAddress;
     private String postContent;
 
@@ -28,6 +29,7 @@ public class PostRequestDto {
     public Post createPost() {
         return Post.builder()
                 .postTitle(postTitle)
+                .postAuthor(postAuthor)
                 .postAddress(postAddress)
                 .postContent(postContent)
                 .postCategory(postCategory)

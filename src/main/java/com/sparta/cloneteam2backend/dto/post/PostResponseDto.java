@@ -23,6 +23,8 @@ public class PostResponseDto {
 
     private String postTitle;
 
+    private String postAuthor;
+
     private String postAddress;
 
     @Enumerated(EnumType.STRING)
@@ -41,6 +43,7 @@ public class PostResponseDto {
         this.modifiedAt = post.getModifiedAt();
         this.postId = post.getPostId();
         this.postTitle = post.getPostTitle();
+        this.postAuthor = post.getPostAuthor();
         this.postAddress = post.getPostAddress();
         this.postCategory = post.getPostCategory();
         this.postFee = post.getPostFee();

@@ -18,6 +18,9 @@ public class Post extends Timestamped {
     private String postTitle;
 
     @Column(nullable = false)
+    private String postAuthor;
+
+    @Column(nullable = false)
     private String postAddress;
 
     @Column(nullable = false)
@@ -31,8 +34,9 @@ public class Post extends Timestamped {
     private String postFee;
     
     @Builder
-    public Post(String postTitle, String postAddress, String postContent, Category postCategory, String postFee) {
+    public Post(String postTitle, String postAuthor, String postAddress, String postContent, Category postCategory, String postFee) {
         this.postTitle = postTitle;
+        this.postAuthor = postAuthor;
         this.postAddress = postAddress;
         this.postContent = postContent;
         this.postCategory = postCategory;
