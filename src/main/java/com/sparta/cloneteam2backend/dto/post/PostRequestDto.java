@@ -16,6 +16,7 @@ public class PostRequestDto {
 
     private String postTitle;
     private String postAuthor;
+    private String postLocation;
     private String postAddress;
     private String postContent;
 
@@ -30,6 +31,7 @@ public class PostRequestDto {
         return Post.builder()
                 .postTitle(postTitle)
                 .postAuthor(postAuthor)
+                .postLocation(postLocation)
                 .postAddress(postAddress)
                 .postContent(postContent)
                 .postCategory(postCategory)

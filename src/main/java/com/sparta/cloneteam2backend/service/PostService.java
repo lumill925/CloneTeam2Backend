@@ -1,5 +1,6 @@
 package com.sparta.cloneteam2backend.service;
 
+import com.sparta.cloneteam2backend.dto.post.PostDetailResponseDto;
 import com.sparta.cloneteam2backend.dto.post.PostRequestDto;
 import com.sparta.cloneteam2backend.dto.post.PostResponseDto;
 import com.sparta.cloneteam2backend.model.Facilities;
@@ -47,13 +48,13 @@ public class PostService {
     }
 
     // 포스트 상세 조회
-    public PostResponseDto getPostDetail(Long postId) {
+    public PostDetailResponseDto getPostDetail(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("포스트가 존재하지 않습니다."));
         Double reviewStar = reviewRepository.existsAllReviewStar(postId).orElse(0.0d);
         List<Img> imageFiles = imgRepository.findAllByTargetId(Imgtarget.POST, postId);
         List<Facilities> facilitiesList = facilitiesRepository.findAllByPostId(postId);
-        return PostResponseDto.builder()
+        return PostDetailResponseDto.builder()
                 .post(post)
                 .reviewStar(reviewStar)
                 .imageFiles(imageFiles)
