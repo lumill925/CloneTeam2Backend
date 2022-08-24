@@ -1,0 +1,1 @@
+web: java $JAVA_OPTS -Dserver.port=$PORT -Dspring.profiles.active=prod -Duwser.timezone=Asia/Seoul -jar build/libs/CloneTeam2Backend-0.0.1-SNAPSHOT.jar

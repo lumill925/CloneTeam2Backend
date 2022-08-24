@@ -2,25 +2,20 @@ name: Deploy
 
 on:
   push:
-    branches:
-      -main
+    branches: [ "develop" ]
   pull_request:
-    branches:
-      -main
+    branches: [ "develop" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
-      - name: application file
+
+      - name: Generate system.properties
         run:
-          cd ./src/main/resources
-          touch ./application-dev.yml
-          echo "${{ secrets.APPLICATION_DEV }}" > ./application-dev.yml
-        shell: bash
-      
+          echo "java.runtime.version=11" >> system.properties
+
       - uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
