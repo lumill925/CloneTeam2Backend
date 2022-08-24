@@ -39,7 +39,13 @@ public class Facilities {
     private Boolean facilitiesTv;
 
     @Builder
-    public Facilities(Long postId, boolean facilitiesParking, boolean facilitiesWifi, boolean facilitiesSwimmingpool, boolean facilitiesAirconditioner, boolean facilitiesTv){
+    public Facilities(Long postId,
+                      boolean facilitiesParking,
+                      boolean facilitiesWifi,
+                      boolean facilitiesSwimmingpool,
+                      boolean facilitiesAirconditioner,
+                      boolean facilitiesTv)
+    {
         this.postId = postId;
         this.facilitiesParking = facilitiesParking;
         this.facilitiesWifi = facilitiesWifi;

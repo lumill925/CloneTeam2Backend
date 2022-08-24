@@ -2,10 +2,7 @@ package com.sparta.cloneteam2backend.controller;
 
 import com.sparta.cloneteam2backend.dto.ResponseDto;
 import com.sparta.cloneteam2backend.dto.post.PostRequestDto;
-import com.sparta.cloneteam2backend.model.Facilities;
-import com.sparta.cloneteam2backend.model.Img;
-import com.sparta.cloneteam2backend.model.Imgtarget;
-import com.sparta.cloneteam2backend.model.Post;
+import com.sparta.cloneteam2backend.model.*;
 import com.sparta.cloneteam2backend.repository.ImgRepository;
 import com.sparta.cloneteam2backend.service.FacilitiesService;
 import com.sparta.cloneteam2backend.service.PostService;
@@ -29,9 +26,14 @@ public class PostController {
 
     // 포스트 리스트 조회
     @GetMapping
-    public ResponseEntity<ResponseDto> getPostList() {
-        return new ResponseEntity<>(
-                ResponseDto.success(postService.getPostList()), HttpStatus.OK);
+    public ResponseEntity<ResponseDto> getPostList(@RequestParam(required = false) Category postCategory) {
+        if(postCategory == null) {
+            return new ResponseEntity<>(
+                    ResponseDto.success(postService.getPostList()), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(
+                    ResponseDto.success(postService.getPostCategoryList(postCategory)), HttpStatus.OK);
+        }
     }
 
     // 포스트 상세 조회

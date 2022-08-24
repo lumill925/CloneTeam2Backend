@@ -44,6 +44,24 @@ public class PostService {
         return postList;
     }
 
+    // 카테고리별 조회
+    public List<PostResponseDto> getPostCategoryList(Category postCategory) {
+        List<Post> posts = postRepository.findAllByPostCategory(postCategory);
+        List<PostResponseDto> postList = new ArrayList<>();
+        for (Post post : posts) {
+            Long postId = post.getPostId();
+            Double reviewStar = reviewRepository.existsAllReviewStar(postId).orElse(0.0d);
+            List<Img> imageFiles = imgRepository.findAllByTargetId(Imgtarget.POST, postId);
+            PostResponseDto postResponseDto = PostResponseDto.builder()
+                    .post(post)
+                    .reviewStar(reviewStar)
+                    .imageFiles(imageFiles)
+                    .build();
+            postList.add(postResponseDto);
+        }
+        return postList;
+    }
+
     // 포스트 상세 조회
     public PostDetailResponseDto getPostDetail(Long postId) {
         Post post = postRepository.findById(postId)
