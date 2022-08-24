@@ -76,20 +76,17 @@ public class SecurityConfig{
         return http.build();
     }
 
-
     //CORS 설정 빈 추가
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-
-        //config.addAllowedOrigin("*");
-        config.addAllowedOrigin("http://localhost:3000");
-        //config.addAllowedHeader("*");
-        //config.addAllowedMethod("*");
         config.setAllowCredentials(true);
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT","OPTIONS","DELETE"));
-        config.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
-        config.setExposedHeaders(Arrays.asList("Authorization"));
+        config.addAllowedOriginPattern("*");
+        config.addAllowedMethod("*");
+        config.addAllowedHeader("*");
+        config.addExposedHeader("Authorization");
+        config.addExposedHeader("accessToken");
+        config.addExposedHeader("refreshToken");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
