@@ -14,12 +14,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FacilitiesService {
 
-    private final FacilitiesRequestDto facilitiesRequestDto;
+    //private final FacilitiesRequestDto facilitiesRequestDto;
     private final FacilitiesRepository facilitiesRepository;
 
     // 편의시설 생성
     @Transactional
     public void createFacilities(Long postId, List<String> facilitiesList) throws IllegalAccessException {
+        FacilitiesRequestDto facilitiesRequestDto = new FacilitiesRequestDto();
         for(Field field : facilitiesRequestDto.getClass().getDeclaredFields()) {
             for(String f : facilitiesList) {
                 if(field.getName().equals(f)) {
@@ -35,11 +36,9 @@ public class FacilitiesService {
     // 편의시설 수정
     @Transactional
     public void updateFacilities(Long postId, List<String> facilitiesList) throws IllegalAccessException {
-        facilitiesRepository.deleteByPostId(postId);
-        for(Field field : facilitiesRequestDto.getClass().getDeclaredFields()) {
-            field.setAccessible(true);
-            field.set(facilitiesRequestDto, false);
-        }
+        FacilitiesRequestDto facilitiesRequestDto = new FacilitiesRequestDto();
+        Facilities facilities = facilitiesRepository.findByPostId(postId)
+                .orElseThrow(() -> new IllegalArgumentException("편의시설 항목이 존재하지 않습니다."));
         for(Field field : facilitiesRequestDto.getClass().getDeclaredFields()) {
             for(String f : facilitiesList) {
                 if(field.getName().equals(f)) {
@@ -48,8 +47,7 @@ public class FacilitiesService {
                 }
             }
         }
-        Facilities facilities = facilitiesRequestDto.toFacilities(postId);
-        facilitiesRepository.save(facilities);
+        facilities.update(facilitiesRequestDto);
     }
 
     // 편의시설 삭제

@@ -17,7 +17,7 @@ public class Post extends Timestamped {
     @Column(nullable = false)
     private String postTitle;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     @ToString.Exclude
     private User user;

@@ -1,11 +1,10 @@
 package com.sparta.cloneteam2backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sparta.cloneteam2backend.dto.facilities.FacilitiesRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -52,5 +51,14 @@ public class Facilities {
         this.facilitiesSwimmingpool = facilitiesSwimmingpool;
         this.facilitiesAirconditioner = facilitiesAirconditioner;
         this.facilitiesTv = facilitiesTv;
+    }
+
+    public void update(FacilitiesRequestDto requestDto)
+    {
+        this.facilitiesParking = requestDto.getFacilitiesParking();
+        this.facilitiesWifi = requestDto.getFacilitiesWifi();
+        this.facilitiesSwimmingpool = requestDto.getFacilitiesSwimmingpool();
+        this.facilitiesAirconditioner = requestDto.getFacilitiesAirconditioner();
+        this.facilitiesTv = requestDto.getFacilitiesTv();
     }
 }

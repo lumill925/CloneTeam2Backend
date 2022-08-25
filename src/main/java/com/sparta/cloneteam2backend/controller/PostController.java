@@ -2,6 +2,7 @@ package com.sparta.cloneteam2backend.controller;
 
 import com.sparta.cloneteam2backend.dto.ResponseDto;
 import com.sparta.cloneteam2backend.dto.post.PostRequestDto;
+import com.sparta.cloneteam2backend.dto.post.PostResponseDto;
 import com.sparta.cloneteam2backend.model.*;
 import com.sparta.cloneteam2backend.repository.ImgRepository;
 import com.sparta.cloneteam2backend.service.FacilitiesService;
@@ -26,14 +27,20 @@ public class PostController {
 
     // 포스트 리스트 조회
     @GetMapping
-    public ResponseEntity<ResponseDto> getPostList(@RequestParam(required = false) Category postCategory) {
-        if(postCategory == null) {
-            return new ResponseEntity<>(
-                    ResponseDto.success(postService.getPostList()), HttpStatus.OK);
+    public ResponseEntity<ResponseDto> getPostList(@RequestParam(required = false) Category postCategory, @RequestParam(required = false) String searchKeyword) {
+        if(searchKeyword == null) {
+            if(postCategory == null) {
+                return new ResponseEntity<>(
+                        ResponseDto.success(postService.getPostList()), HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(
+                        ResponseDto.success(postService.getPostCategoryList(postCategory)), HttpStatus.OK);
+            }
         } else {
             return new ResponseEntity<>(
-                    ResponseDto.success(postService.getPostCategoryList(postCategory)), HttpStatus.OK);
+                    ResponseDto.success(postService.getPostSearchList(searchKeyword)), HttpStatus.OK);
         }
+
     }
 
     // 포스트 상세 조회
@@ -48,7 +55,7 @@ public class PostController {
     @PostMapping
     public ResponseEntity<ResponseDto> createPost(@RequestPart PostRequestDto requestDto,
                                                   @RequestPart(required = false) MultipartFile[] postImage) throws IllegalAccessException {
-        Post post = postService.createPost(requestDto);
+        PostResponseDto post = postService.createPost(requestDto);
         if(postImage != null) {
             s3Service.uploadFile(postImage, String.valueOf(Imgtarget.POST), post.getPostId());
         }
@@ -63,7 +70,7 @@ public class PostController {
     @PutMapping("/{postId}")
     public ResponseEntity<ResponseDto> updatePost(@PathVariable Long postId, @RequestPart PostRequestDto requestDto, ArrayList<String> deleteFiles,
             @RequestPart(required = false) MultipartFile[] postImage) throws IllegalAccessException {
-        Post post = postService.updatePost(postId, requestDto);
+        PostResponseDto post = postService.updatePost(postId, requestDto);
         if(postImage != null) {
             s3Service.updateFile(deleteFiles, postImage, String.valueOf(Imgtarget.POST), postId);
         }
