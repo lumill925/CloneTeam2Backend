@@ -40,7 +40,6 @@ public class PostController {
             return new ResponseEntity<>(
                     ResponseDto.success(postService.getPostSearchList(searchKeyword)), HttpStatus.OK);
         }
-
     }
 
     // 포스트 상세 조회

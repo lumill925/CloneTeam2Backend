@@ -27,7 +27,6 @@ public class ReviewController {
 	// 리뷰 작성
 	@PostMapping
 	public ResponseEntity<ResponseDto> createReview(@PathVariable Long postId, @RequestBody ReviewRequestDto requestDto) {
-		if(requestDto.getReviewStar() > 5 || requestDto.getReviewContent().equals("")) { throw new IllegalArgumentException(); }
 		ReviewResponseDto reviewDto = reviewService.createReview(postId, requestDto);
 		return new ResponseEntity<>(ResponseDto.success(reviewDto), HttpStatus.OK);
 	}
@@ -35,7 +34,6 @@ public class ReviewController {
 	// 리뷰 수정
 	@PutMapping("/{reviewId}")
 	public ResponseEntity<ResponseDto> updateReview(@PathVariable Long reviewId, @RequestBody ReviewRequestDto requestDto) {
-		if(requestDto.getReviewStar() > 5 || requestDto.getReviewContent().equals("")) { throw new IllegalArgumentException(); }
 		ReviewResponseDto reviewDto = reviewService.updateReview(reviewId, requestDto);
 		return new ResponseEntity<>(ResponseDto.success(reviewDto), HttpStatus.OK);
 	}

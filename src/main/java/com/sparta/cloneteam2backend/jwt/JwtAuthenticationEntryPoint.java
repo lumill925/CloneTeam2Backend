@@ -1,5 +1,7 @@
 package com.sparta.cloneteam2backend.jwt;
 
+import com.sparta.cloneteam2backend.error.ErrorCode;
+import com.sparta.cloneteam2backend.error.exception.InvalidValueException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -14,7 +16,8 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
 
     @Override
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse response,
+                         AuthenticationException authException) throws IOException, ServletException {
         // 유효한 자격증명을 제공하지 않고 접근하려 할때 401
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"잘못된 접근입니다");
     }
