@@ -7,6 +7,8 @@ import com.sparta.cloneteam2backend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,7 +29,12 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<ResponseDto> login(@RequestBody UserRequestDto requestDto) {
-            return new ResponseEntity<>(ResponseDto.success(userService.login(requestDto)), HttpStatus.OK);
+		TokenDto tokenDto = userService.login(requestDto);
+		MultiValueMap<String, String> header = new LinkedMultiValueMap<>();
+		header.add("Access-Token", tokenDto.getAccessToken());
+		header.add("Refresh-Token", tokenDto.getRefreshToken());
+		header.add("Authorization", "Bearer " + tokenDto.getAccessToken());
+		return new ResponseEntity<>(header, HttpStatus.OK);
     }
 
 
