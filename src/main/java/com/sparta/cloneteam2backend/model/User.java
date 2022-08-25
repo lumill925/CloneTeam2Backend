@@ -44,4 +44,8 @@ public class User {
         this.userPassword = password;
         this.authority = authority;
     }
+
+    public Authority getRole() {
+        return authority;
+    }
 }
