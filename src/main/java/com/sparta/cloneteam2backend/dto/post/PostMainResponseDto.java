@@ -11,7 +11,7 @@ import javax.persistence.Enumerated;
 import java.util.List;
 
 @Getter
-public class PostResponseDto {
+public class PostMainResponseDto {
     private Long postId;
 
     private String postLocation;
@@ -21,11 +21,19 @@ public class PostResponseDto {
 
     private String postFee;
 
+    private Double reviewStar;
+
+    private Object[] imageFiles;
+
     @Builder
-    public PostResponseDto(Post post) {
+    public PostMainResponseDto(Post post, Double reviewStar, List<Img> imageFiles) {
         this.postId = post.getPostId();
         this.postLocation = post.getPostLocation();
         this.postCategory = post.getPostCategory();
         this.postFee = post.getPostFee();
+        this.reviewStar = reviewStar;
+        this.imageFiles = imageFiles.stream()
+                .map(Img::getImgUrl)
+                .toArray();
     }
 }

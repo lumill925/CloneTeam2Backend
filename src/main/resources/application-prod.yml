@@ -21,11 +21,12 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
 logging:
   level:
+    root: INFO
     org:
       hibernate:
         type:
           descriptor:
-            sql: trace
+            sql: INFO
 cloud:
   aws:
     credentials:

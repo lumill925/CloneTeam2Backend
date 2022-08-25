@@ -2,6 +2,7 @@ package com.sparta.cloneteam2backend.service;
 
 import com.sparta.cloneteam2backend.dto.post.PostDetailResponseDto;
 import com.sparta.cloneteam2backend.dto.post.PostRequestDto;
+import com.sparta.cloneteam2backend.dto.post.PostMainResponseDto;
 import com.sparta.cloneteam2backend.dto.post.PostResponseDto;
 import com.sparta.cloneteam2backend.model.*;
 import com.sparta.cloneteam2backend.repository.FacilitiesRepository;
@@ -27,37 +28,55 @@ public class PostService {
 
 
     // 포스트 리스트 조회
-    public List<PostResponseDto> getPostList() {
+    public List<PostMainResponseDto> getPostList() {
         List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
-        List<PostResponseDto> postList = new ArrayList<>();
+        List<PostMainResponseDto> postList = new ArrayList<>();
         for (Post post : posts) {
             Long postId = post.getPostId();
             Double reviewStar = reviewRepository.existsAllReviewStar(postId).orElse(0.0d);
             List<Img> imageFiles = imgRepository.findAllByTargetId(Imgtarget.POST, postId);
-            PostResponseDto postResponseDto = PostResponseDto.builder()
+            PostMainResponseDto postMainResponseDto = PostMainResponseDto.builder()
                     .post(post)
                     .reviewStar(reviewStar)
                     .imageFiles(imageFiles)
                     .build();
-            postList.add(postResponseDto);
+            postList.add(postMainResponseDto);
         }
         return postList;
     }
 
     // 카테고리별 조회
-    public List<PostResponseDto> getPostCategoryList(Category postCategory) {
+    public List<PostMainResponseDto> getPostCategoryList(Category postCategory) {
         List<Post> posts = postRepository.findAllByPostCategory(postCategory);
-        List<PostResponseDto> postList = new ArrayList<>();
+        List<PostMainResponseDto> postList = new ArrayList<>();
         for (Post post : posts) {
             Long postId = post.getPostId();
             Double reviewStar = reviewRepository.existsAllReviewStar(postId).orElse(0.0d);
             List<Img> imageFiles = imgRepository.findAllByTargetId(Imgtarget.POST, postId);
-            PostResponseDto postResponseDto = PostResponseDto.builder()
+            PostMainResponseDto postMainResponseDto = PostMainResponseDto.builder()
                     .post(post)
                     .reviewStar(reviewStar)
                     .imageFiles(imageFiles)
                     .build();
-            postList.add(postResponseDto);
+            postList.add(postMainResponseDto);
+        }
+        return postList;
+    }
+
+    // 검색 조회
+    public List<PostMainResponseDto> getPostSearchList(String searchKeyword) {
+        List<Post> posts = postRepository.findByPostContentContaining(searchKeyword);
+        List<PostMainResponseDto> postList = new ArrayList<>();
+        for (Post post : posts) {
+            Long postId = post.getPostId();
+            Double reviewStar = reviewRepository.existsAllReviewStar(postId).orElse(0.0d);
+            List<Img> imageFiles = imgRepository.findAllByTargetId(Imgtarget.POST, postId);
+            PostMainResponseDto postMainResponseDto = PostMainResponseDto.builder()
+                    .post(post)
+                    .reviewStar(reviewStar)
+                    .imageFiles(imageFiles)
+                    .build();
+            postList.add(postMainResponseDto);
         }
         return postList;
     }
@@ -68,7 +87,8 @@ public class PostService {
                 .orElseThrow(() -> new IllegalArgumentException("포스트가 존재하지 않습니다."));
         Double reviewStar = reviewRepository.existsAllReviewStar(postId).orElse(0.0d);
         List<Img> imageFiles = imgRepository.findAllByTargetId(Imgtarget.POST, postId);
-        List<Facilities> facilitiesList = facilitiesRepository.findAllByPostId(postId);
+        Facilities facilitiesList = facilitiesRepository.findByPostId(postId)
+                .orElseThrow(() -> new IllegalArgumentException("편의시설 항목이 존재하지 않습니다."));
         return PostDetailResponseDto.builder()
                 .post(post)
                 .reviewStar(reviewStar)
@@ -79,23 +99,23 @@ public class PostService {
 
     // 포스트 생성
     @Transactional
-    public Post createPost(PostRequestDto requestDto) {
+    public PostResponseDto createPost(PostRequestDto requestDto) {
         User user = userService.getMyInfo();
         Post post = requestDto.createPost(user);
         postRepository.save(post);
-        return post;
+        return new PostResponseDto(post);
     }
 
     // 포스트 수정
     @Transactional
-    public Post updatePost(Long postId, PostRequestDto requestDto) {
+    public PostResponseDto updatePost(Long postId, PostRequestDto requestDto) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("포스트가 존재하지 않습니다."));
         if(!userService.getMyInfo().getUserId().equals(post.getUser().getUserId())) {
             throw new IllegalArgumentException("작성자가 아닙니다.");
         }
         post.update(requestDto);
-        return post;
+        return new PostResponseDto(post);
     }
 
     // 포스트 삭제

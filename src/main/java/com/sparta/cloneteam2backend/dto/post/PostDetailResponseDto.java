@@ -38,10 +38,10 @@ public class PostDetailResponseDto {
 
     private Object[] imageFiles;
 
-    private List<Facilities> facilitiesList;
+    private Facilities facilitiesList;
 
     @Builder
-    public PostDetailResponseDto(Post post, Double reviewStar, List<Img> imageFiles, List<Facilities> facilitiesList) {
+    public PostDetailResponseDto(Post post, Double reviewStar, List<Img> imageFiles, Facilities facilitiesList) {
         this.modifiedAt = post.getModifiedAt();
         this.postId = post.getPostId();
         this.postTitle = post.getPostTitle();
