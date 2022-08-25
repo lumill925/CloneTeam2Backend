@@ -140,7 +140,8 @@ public class PostService {
 
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new InvalidValueException(ErrorCode.NOTFOUND_POST));
-        if(!userService.getMyInfo().getUserId().equals(post.getUser().getUserId())) {
+        if(!(userService.getMyInfo().getUserId().equals(post.getUser().getUserId())
+                || userService.getMyInfo().getRole().equals(Authority.ROLE_ADMIN))) {
             throw new InvalidValueException(ErrorCode.NOT_AUTHORIZED_USER);
         }
 
@@ -153,7 +154,8 @@ public class PostService {
     public Long deletePost(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new InvalidValueException(ErrorCode.NOTFOUND_POST));
-        if(!userService.getMyInfo().getUserId().equals(post.getUser().getUserId())) {
+        if(!(userService.getMyInfo().getUserId().equals(post.getUser().getUserId())
+                || userService.getMyInfo().getRole().equals(Authority.ROLE_ADMIN))) {
             throw new InvalidValueException(ErrorCode.NOT_AUTHORIZED_USER);
         }
         postRepository.deleteById(postId);

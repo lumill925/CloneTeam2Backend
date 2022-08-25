@@ -4,6 +4,7 @@ import com.sparta.cloneteam2backend.dto.review.ReviewRequestDto;
 import com.sparta.cloneteam2backend.dto.review.ReviewResponseDto;
 import com.sparta.cloneteam2backend.error.ErrorCode;
 import com.sparta.cloneteam2backend.error.exception.InvalidValueException;
+import com.sparta.cloneteam2backend.model.Authority;
 import com.sparta.cloneteam2backend.model.Post;
 import com.sparta.cloneteam2backend.model.Review;
 import com.sparta.cloneteam2backend.model.User;
@@ -57,7 +58,8 @@ public class ReviewService {
 
 		Review review = reviewRepository.findById(reviewId)
 				.orElseThrow(() -> new InvalidValueException(ErrorCode.NOTFOUND_COMMENT));
-		if (!review.getUser().getUserId().equals(userService.getMyInfo().getUserId())) {
+		if (!(review.getUser().getUserId().equals(userService.getMyInfo().getUserId())
+				|| userService.getMyInfo().getRole().equals(Authority.ROLE_ADMIN))) {
 			throw new InvalidValueException(ErrorCode.NOT_AUTHORIZED_USER);
 		}
 
@@ -70,7 +72,8 @@ public class ReviewService {
 		if (!reviewRepository.existsById(reviewId)) {
 			throw new InvalidValueException(ErrorCode.NOTFOUND_COMMENT);
 		}
-		if (!reviewRepository.findById(reviewId).get().getUser().getUserId().equals(userService.getMyInfo().getUserId())) {
+		if (!(reviewRepository.findById(reviewId).get().getUser().getUserId().equals(userService.getMyInfo().getUserId())
+				|| userService.getMyInfo().getRole().equals(Authority.ROLE_ADMIN))) {
 			throw new InvalidValueException(ErrorCode.NOT_AUTHORIZED_USER);
 		}
 		reviewRepository.deleteById(reviewId);
