@@ -19,6 +19,8 @@ public class PostMainResponseDto {
     @Enumerated(EnumType.STRING)
     private Category postCategory;
 
+    private String postTitle;
+
     private String postFee;
 
     private Double reviewStar;
@@ -28,6 +30,7 @@ public class PostMainResponseDto {
     @Builder
     public PostMainResponseDto(Post post, Double reviewStar, List<Img> imageFiles) {
         this.postId = post.getPostId();
+        this.postTitle = post.getPostTitle();
         this.postLocation = post.getPostLocation();
         this.postCategory = post.getPostCategory();
         this.postFee = post.getPostFee();
