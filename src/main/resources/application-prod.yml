@@ -22,11 +22,7 @@ spring:
 logging:
   level:
     root: INFO
-    org:
-      hibernate:
-        type:
-          descriptor:
-            sql: INFO
+
 cloud:
   aws:
     credentials:
