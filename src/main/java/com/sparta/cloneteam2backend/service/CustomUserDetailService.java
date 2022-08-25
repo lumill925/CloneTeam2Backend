@@ -1,5 +1,7 @@
 package com.sparta.cloneteam2backend.service;
 
+import com.sparta.cloneteam2backend.error.ErrorCode;
+import com.sparta.cloneteam2backend.error.exception.InvalidValueException;
 import com.sparta.cloneteam2backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,7 +26,7 @@ public class CustomUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUserUsername(username)
                 .map(this::createUserDetails)
-                .orElseThrow(() -> new UsernameNotFoundException(username + " -> 데이터베이스에서 찾을 수 없습니다."));
+                .orElseThrow(() -> new InvalidValueException(ErrorCode.NOTFOUND_USER));
     }
 
 

@@ -1,6 +1,8 @@
 package com.sparta.cloneteam2backend.service;
 
 import com.sparta.cloneteam2backend.dto.facilities.FacilitiesRequestDto;
+import com.sparta.cloneteam2backend.error.ErrorCode;
+import com.sparta.cloneteam2backend.error.exception.InvalidValueException;
 import com.sparta.cloneteam2backend.model.Facilities;
 import com.sparta.cloneteam2backend.repository.FacilitiesRepository;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +40,7 @@ public class FacilitiesService {
     public void updateFacilities(Long postId, List<String> facilitiesList) throws IllegalAccessException {
         FacilitiesRequestDto facilitiesRequestDto = new FacilitiesRequestDto();
         Facilities facilities = facilitiesRepository.findByPostId(postId)
-                .orElseThrow(() -> new IllegalArgumentException("편의시설 항목이 존재하지 않습니다."));
+                .orElseThrow(() -> new InvalidValueException(ErrorCode.INVALID_INPUT_FACILITY));
         for(Field field : facilitiesRequestDto.getClass().getDeclaredFields()) {
             for(String f : facilitiesList) {
                 if(field.getName().equals(f)) {

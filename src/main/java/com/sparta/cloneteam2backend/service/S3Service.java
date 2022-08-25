@@ -4,6 +4,8 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.sparta.cloneteam2backend.error.ErrorCode;
+import com.sparta.cloneteam2backend.error.exception.InvalidValueException;
 import com.sparta.cloneteam2backend.model.Img;
 import com.sparta.cloneteam2backend.model.Imgtarget;
 import com.sparta.cloneteam2backend.model.Imgtarget;
@@ -39,14 +41,14 @@ public class S3Service {
 			String fileName = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss", Locale.KOREA))
 					+ "_" + Objects.requireNonNull(file.getOriginalFilename()).toLowerCase();
 			if(!(fileName.endsWith(".jpg") || fileName.endsWith(".png") || fileName.endsWith("jpeg"))) {
-				throw new IllegalArgumentException();
+				throw new InvalidValueException(ErrorCode.INVALID_FILE_EXTENSION);
 			}
 			omd.setContentType(file.getContentType());
 			try {
 				amazonS3.putObject(new PutObjectRequest(bucket + "/" + targetDirectory,
 						fileName, file.getInputStream(), omd)
 						.withCannedAcl(CannedAccessControlList.PublicRead));
-			} catch (IOException e) { throw new IllegalArgumentException(); }
+			} catch (IOException e) { throw new InvalidValueException(ErrorCode.UPLOAD_FAILED); }
 			String imagePath = amazonS3.getUrl(bucket + "/" + targetDirectory, fileName).toString();
 			Img image = Img.builder()
 					.imgTarget(Imgtarget.valueOf(targetDirectory))

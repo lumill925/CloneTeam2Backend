@@ -23,6 +23,8 @@ public class PostDetailResponseDto {
 
     private String postTitle;
 
+    private String postContent;
+
     private String postLocation;
 
     private String postAddress;
@@ -47,6 +49,7 @@ public class PostDetailResponseDto {
         this.postTitle = post.getPostTitle();
         this.userNickname = post.getUser().getUserNickname();
         this.postLocation = post.getPostLocation();
+        this.postContent = post.getPostContent();
         this.postAddress = post.getPostAddress();
         this.postCategory = post.getPostCategory();
         this.postFee = post.getPostFee();

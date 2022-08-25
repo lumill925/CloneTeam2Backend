@@ -1,6 +1,8 @@
 package com.sparta.cloneteam2backend.jwt;
 
 import com.sparta.cloneteam2backend.dto.user.TokenDto;
+import com.sparta.cloneteam2backend.error.ErrorCode;
+import com.sparta.cloneteam2backend.error.exception.InvalidValueException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -77,7 +79,7 @@ public class TokenProvider {
         Claims claims = parseClaims(accessToken);
 
         if(claims.get(AUTH_KEY) == null) {
-            throw new RuntimeException("권한 정보 없는 토큰 입니다");
+            throw new InvalidValueException(ErrorCode.INVALID_ACCESS_TOKEN);
         }
 
         // 클레임에서 권한 정보 가져오기
@@ -96,18 +98,18 @@ public class TokenProvider {
 
     public boolean validateToken(String token) {
         try {
+            System.out.println(token);
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.info("잘못된 JWT 서명입니다.");
+            throw new InvalidValueException(ErrorCode.INVALID_JWT_TOKEN);
         } catch (ExpiredJwtException e) {
-            log.info("만료된 JWT 토큰입니다.");
+            throw new InvalidValueException(ErrorCode.EXPIRED_JWT_TOKEN);
         } catch (UnsupportedJwtException e) {
-            log.info("지원되지 않는 JWT 토큰입니다.");
+            throw new InvalidValueException(ErrorCode.UNSUPPORTED_JWT_TOKEN);
         } catch (IllegalArgumentException e) {
-            log.info("JWT 토큰이 잘못되었습니다.");
+            throw new InvalidValueException(ErrorCode.INVALID_ACCESS_TOKEN);
         }
-        return false;
     }
 
 

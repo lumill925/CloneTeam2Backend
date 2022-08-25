@@ -16,6 +16,8 @@ public class PostResponseDto {
 
     private String postLocation;
 
+    private String postContent;
+
     @Enumerated(EnumType.STRING)
     private Category postCategory;
 
@@ -26,6 +28,7 @@ public class PostResponseDto {
         this.postId = post.getPostId();
         this.postLocation = post.getPostLocation();
         this.postCategory = post.getPostCategory();
+        this.postContent = post.getPostContent();
         this.postFee = post.getPostFee();
     }
 }
